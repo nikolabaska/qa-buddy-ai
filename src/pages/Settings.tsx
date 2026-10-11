@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Sparkles, Save, Trash2, Key, ChevronLeft } from 'lucide-react';
+import { Sparkles, Save, Trash2, Key, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAI } from '@/hooks/useAI';
 
 const Settings = () => {
