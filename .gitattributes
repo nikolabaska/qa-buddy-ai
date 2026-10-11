@@ -1,0 +1,2 @@
+# Normalize text files to LF so Dyad commits are stable across platforms.
+* text=auto eol=lf
