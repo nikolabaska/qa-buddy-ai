@@ -4,19 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Sparkles, Save, Trash2, Key, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useAI } from '@/hooks/useAI';
+import { useAI, AIProvider } from '@/hooks/useAI';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Settings = () => {
-  const { apiKey, updateApiKey, clearApiKey } = useAI();
+  const { provider, apiKey, updateSettings, clearSettings } = useAI();
+  const [providerValue, setProviderValue] = useState<AIProvider>(provider);
   const [inputValue, setInputValue] = useState(apiKey || '');
 
   const handleSave = () => {
-    updateApiKey(inputValue);
+    updateSettings(providerValue, inputValue);
   };
 
   const handleClear = () => {
     setInputValue('');
-    clearApiKey();
+    clearSettings();
   };
 
   return (
@@ -44,16 +52,33 @@ const Settings = () => {
             <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
               <Key size={20} />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">OpenAI API Key</h2>
+            <h2 className="text-xl font-bold text-slate-900">AI Provider Settings</h2>
           </div>
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Secret Key</label>
+              <label className="text-sm font-medium text-slate-700">AI Provider</label>
+              <Select 
+                value={providerValue} 
+                onValueChange={(value: AIProvider) => setProviderValue(value)}
+              >
+                <SelectTrigger className="rounded-xl border-slate-200 h-11">
+                  <SelectValue placeholder="Select provider" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="openai">OpenAI (GPT-4)</SelectItem>
+                  <SelectItem value="anthropic">Anthropic (Claude 3.5)</SelectItem>
+                  <SelectItem value="gemini">Google (Gemini 1.5 Pro)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-700">API Secret Key</label>
               <div className="flex gap-3">
                 <Input 
                   type="password" 
-                  placeholder="sk-..." 
+                  placeholder="Enter your API key..." 
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   className="rounded-xl border-slate-200"
@@ -92,21 +117,40 @@ const Settings = () => {
         <div className="mt-12 p-6 rounded-3xl bg-indigo-50 border border-indigo-100">
           <h3 className="text-indigo-900 font-bold mb-2">Need an API Key?</h3>
           <p className="text-indigo-700 text-sm leading-relaxed mb-4">
-            To use QABuddy AI, you'll need an OpenAI account and an API key. 
-            You can create one at the OpenAI platform dashboard.
+            Depending on your chosen provider, you will need an account and an API key. 
+            These keys allow the AI agents to communicate with the respective AI models.
           </p>
-          <a 
-            href="https://platform.openai.com/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-indigo-600 font-bold text-sm hover:underline flex items-center gap-1"
-          >
-            Visit OpenAI Platform <ChevronRight size={14} />
-          </a>
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a 
+              href="https://platform.openai.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
+            >
+              OpenAI Platform <ChevronRight size={12} />
+            </a>
+            <a 
+              href="https://console.anthropic.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
+            >
+              Anthropic Console <ChevronRight size={12} />
+            </a>
+            <a 
+              href="https://aistudio.google.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
+            >
+              Google AI Studio <ChevronRight size={12} />
+            </a>
+          </div >
+        </div >
       </main>
-    </div>
+    </div >
   );
 };
 
 export default Settings;
+}
