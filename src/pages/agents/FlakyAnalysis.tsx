@@ -7,6 +7,20 @@ const FlakyAnalysis = () => {
       title="Flaky Test Analysis"
       description="Examines execution history and identifies frequently failing tests, timing patterns and possible root causes."
       systemPrompt="You are a Reliability Engineer. Examine the provided execution history and failure patterns of a test. Identify: 1) Frequency of failure, 2) Timing patterns (e.g., fails only on Monday mornings), 3) Possible root causes (race conditions, network lag). Suggest a strategy to stabilize the test."
+      examples={[
+        {
+          label: "Test Execution History",
+          content: `Test: search_results_load_test
+Run 1: PASS
+Run 2: FAIL (Timeout)
+Run 3: PASS
+Run 4: FAIL (ElementNotFound)
+Run 5: PASS
+Run 6: PASS
+Run 7: FAIL (Timeout)
+Environment: Staging-1`
+        }
+      ]}
     />
   );
 };

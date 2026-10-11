@@ -11,12 +11,20 @@ interface AgentLayoutProps {
   title: string;
   description: string;
   systemPrompt: string;
-  children?: React.ReactNode; // Optional custom input fields
+  examples?: { label: string; content: string }[];
+  children?: React.ReactNode;
 }
 
-export const AgentLayout: React.FC<AgentLayoutProps> = ({ title, description, systemPrompt, children }) => {
+export const AgentLayout: React.FC<AgentLayoutProps> = ({
+  title,
+  description,
+  systemPrompt,
+  examples = [],
+  children
+}) => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
+  const [exampleIndex, setExampleIndex] = useState(0);
   const { generateResponse, isLoading, error, apiKey } = useAI();
 
   const handleRun = async () => {
@@ -26,7 +34,6 @@ export const AgentLayout: React.FC<AgentLayoutProps> = ({ title, description, sy
       const result = await generateResponse(systemPrompt, input);
       setOutput(result);
     } catch (err: any) {
-      // error is handled by the hook but we might want local feedback
       console.error(err);
     }
   };
@@ -34,6 +41,13 @@ export const AgentLayout: React.FC<AgentLayoutProps> = ({ title, description, sy
   const handleClear = () => {
     setInput('');
     setOutput('');
+  };
+
+  const handleLoadExample = () => {
+    if (examples.length === 0) return;
+    
+    setInput(examples[exampleIndex].content);
+    setExampleIndex((prev) => (prev + 1) % examples.length);
   };
 
   return (
@@ -78,17 +92,29 @@ export const AgentLayout: React.FC<AgentLayoutProps> = ({ title, description, sy
           {/* Input Panel */}
           <Card className="flex flex-col bg-white shadow-sm border-slate-200 overflow-hidden rounded-2xl">
             <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-              <span className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Input</span>
-              <Button variant="ghost" size="sm" onClick={handleClear} className="text-slate-500 hover:text-slate-700">
-                <RefreshCw size={14} className="mr-2" />
-                Clear
-              </Button>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Input</span>
+                {examples.length > 0 && (
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 bg-slate-200 text-slate-600 rounded uppercase">Example Input</span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {examples.length > 0 && (
+                  <Button variant="ghost" size="sm" onClick={handleLoadExample} className="text-indigo-600 hover:text-indigo-700 text-xs font-medium px-2">
+                    Load example
+                  </Button>
+                )}
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-slate-500 hover:text-slate-700">
+                  <RefreshCw size={14} className="mr-2" />
+                  Clear
+                </Button>
+              </div>
             </div>
             <div className="p-4 flex-1 flex flex-col gap-4">
               {children ? (
                 <div className="flex-1">{children}</div>
               ) : (
-                <Textarea 
+                <Textarea
                   placeholder="Paste your requirements, code, or logs here..."
                   className="flex-1 min-h-[400px] resize-none p-4 text-slate-800 border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 rounded-xl"
                   value={input}
@@ -97,8 +123,8 @@ export const AgentLayout: React.FC<AgentLayoutProps> = ({ title, description, sy
               )}
             </div>
             <div className="p-4 border-t border-slate-100 bg-white">
-              <Button 
-                onClick={handleRun} 
+              <Button
+                onClick={handleRun}
                 disabled={isLoading || !input.trim()}
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-6 rounded-xl transition-all flex items-center justify-center gap-2 text-lg"
               >
