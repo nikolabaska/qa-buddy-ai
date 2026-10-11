@@ -45,15 +45,15 @@ const Settings = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-extrabold text-slate-900 mb-2">Configuration</h1>
           <p className="text-slate-600">Manage your AI provider credentials to enable the agents.</p>
-        </div>
+        </div >
 
         <Card className="p-8 bg-white shadow-sm border-slate-200 rounded-3xl">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
               <Key size={20} />
-            </div>
+            </div >
             <h2 className="text-xl font-bold text-slate-900">AI Provider Settings</h2>
-          </div>
+          </div >
 
           <div className="space-y-6">
             <div className="space-y-2">
@@ -71,7 +71,7 @@ const Settings = () => {
                   <SelectItem value="gemini">Google (Gemini 1.5 Pro)</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </div >
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">API Secret Key</label>
@@ -91,11 +91,11 @@ const Settings = () => {
                 >
                   <Trash2 size={18} />
                 </Button>
-              </div>
+              </div >
               <p className="text-xs text-slate-500">
                 Your API key is stored locally in your browser and never sent to our servers.
               </p>
-            </div>
+            </div >
 
             <div className="flex justify-end gap-3 pt-4">
               <Link to="/">
@@ -110,8 +110,8 @@ const Settings = () => {
                 <Save size={18} />
                 Save Settings
               </Button>
-            </div>
-          </div>
+            </div >
+          </div >
         </Card>
 
         <div className="mt-12 p-6 rounded-3xl bg-indigo-50 border border-indigo-100">
@@ -128,7 +128,7 @@ const Settings = () => {
               className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
             >
               OpenAI Platform <ChevronRight size={12} />
-            </a>
+            </a >
             <a 
               href="https://console.anthropic.com/" 
               target="_blank" 
@@ -136,7 +136,7 @@ const Settings = () => {
               className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
             >
               Anthropic Console <ChevronRight size={12} />
-            </a>
+            </a >
             <a 
               href="https://aistudio.google.com/" 
               target="_blank" 
@@ -144,7 +144,7 @@ const Settings = () => {
               className="text-indigo-600 font-bold text-xs hover:underline flex items-center gap-1 p-2 bg-white rounded-lg border border-indigo-100"
             >
               Google AI Studio <ChevronRight size={12} />
-            </a>
+            </a >
           </div >
         </div >
       </main>
@@ -153,4 +153,3 @@ const Settings = () => {
 };
 
 export default Settings;
-}
